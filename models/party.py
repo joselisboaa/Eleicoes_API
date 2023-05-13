@@ -5,7 +5,7 @@ class PartyModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     allience_party_id = db.Column(db.Integer, db.ForeignKey("alliences_party.id"))
-    name = db.Column(db.String(255), nullable=False, required=True)
-    abbreviation = db.Column(db.String(15), nullable=False, required=True)
+    name = db.Column(db.String(255), nullable=False, required=True, unique=True)
+    abbreviation = db.Column(db.String(15), nullable=False, required=True, unique=True)
 
     allience_party = db.relationship("AllienceParty", backpopulates="parties")

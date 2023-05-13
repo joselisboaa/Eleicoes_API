@@ -4,7 +4,7 @@ from flask_smorest import Api
 from db import db
 import models
 
-def create_app():
+def create_app(db_url=None):
       
   app = Flask(__name__)
 
@@ -16,7 +16,9 @@ def create_app():
   app.config["OPENAPI_SWAGGER_UI_PATH"] = "/api"
   app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
   app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
-
+  app.config["SQLALCHEMY_TRACK_NOTIFICATIONS"] = False
+  db.init_app(app)
+  
   api = Api(app)
 
   return app
