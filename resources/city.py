@@ -64,6 +64,20 @@ class CitiesList(MethodView):
 
       return make_response(jsonify(city_dto), 201)
     
+    def get(self, city_id):
+        city = CityModel.query.filter(CityModel.id == city_id).first()
+
+        if city is None:
+            return make_response(jsonify({"message": "Cidade não existente."}), 404)
+        
+        city_dto = {
+          "name": city.name,
+          "state_abbreviation": city.state_abbreviation,
+          "group_of_councilors": city.group_of_councilors,
+        }
+
+        return make_response(jsonify(city_dto), 200)
+        
     def delete(self, city_id):
         city = CityModel.query.filter(CityModel.id == city_id).first()
 
