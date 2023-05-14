@@ -4,6 +4,7 @@ from flask_smorest import Api
 from db import db
 import models
 from resources.city import blp as CityBlueprint
+from resources.electoral_zone import blp as ElectoralZoneBlueprint
 
 def create_app(db_url=None):
       
@@ -26,5 +27,6 @@ def create_app(db_url=None):
     db.create_all()
 
   api.register_blueprint(CityBlueprint)
+  api.register_blueprint(ElectoralZoneBlueprint)
 
   return app

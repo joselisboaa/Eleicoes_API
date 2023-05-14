@@ -8,7 +8,7 @@ class CitySchema(Schema):
 
 class PlainElectoralZoneSchema(Schema):
     id = fields.Int(dump_only=True)
-    name = fields.Str(required=True)
+    zone = fields.Str(required=True)
 
 class PlainElectoralSectionSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -40,11 +40,9 @@ class PlainVoteSchema(Schema):
 
 class VoteSchema(PlainVoteSchema):
     section_id = fields.Int(required=True, load_only=True)
-    candidate_mayor_id = fields.Int(required=True, load_only=True)
-    candidate_councilman_id = fields.Int(required=True, load_only=True)
+    candidate_id = fields.Int(required=True, load_only=True)
     section = fields.Nested(PlainElectoralSectionSchema(), dump_only=True)
-    candidate_mayor = fields.Nested(PlainCandidateSchema(), dump_only=True)
-    candidate_councilman = fields.Nested(PlainCandidateSchema(), dump_only=True)
+    candidate = fields.Nested(PlainCandidateSchema(), dump_only=True)
 
 
 class CandidateSchema(PlainCandidateSchema):

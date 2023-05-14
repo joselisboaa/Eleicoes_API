@@ -25,20 +25,13 @@ class CityList(MethodView):
             db.session.commit()
         except SQLAlchemyError:
             abort(500, message="Ocorreu um erro.")
-        
-        city_dto = {
-            "id": city.id,
-            "name": city.name, 
-            "state_abbreviation": city.state_abbreviation,
-            "numbers_of_councilors": city.group_of_councilors,
-        }
 
-        return make_response(jsonify(city_dto), 201)
+        return city
     
 @blp.route("/city/<int:city_id>")
 class CitiesList(MethodView):
     @blp.arguments(CitySchema)
-    @blp.response(201, CitySchema)
+    @blp.response(200, CitySchema)
     def put(self, city_data, city_id):
       city = CityModel.query.get(city_id)
 
@@ -61,8 +54,9 @@ class CitiesList(MethodView):
       db.session.add(city)
       db.session.commit()
 
-      return make_response(jsonify(city_dto), 201)
+      return make_response(jsonify(city_dto), 200)
     
+    @blp.response(200, CitySchema)
     def get(self, city_id):
         city = CityModel.query.filter(CityModel.id == city_id).first()
 
@@ -77,14 +71,18 @@ class CitiesList(MethodView):
         }
 
         return make_response(jsonify(city_dto), 200)
-        
+
+    @blp.response(204)
     def delete(self, city_id):
         city = CityModel.query.filter(CityModel.id == city_id).first()
 
         if city is None:
             return make_response(jsonify({"message": "Cidade não existente."}), 404)
         
-        db.session.delete(city)
-        db.session.commit()
+        try:
+            db.session.delete(city)
+            db.session.commit()
+        except SQLAlchemyError:
+            abort(500, message="Erro ao excluir cidade.")
 
         return make_response(jsonify({"message": "Cidade excluída com sucesso."}), 204)
