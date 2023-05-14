@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields
 
-class PlainCitySchema(Schema):
+class CitySchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
     state_abbreviation = fields.Str(required=True)
