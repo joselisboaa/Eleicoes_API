@@ -3,6 +3,7 @@ from flask import Flask
 from flask_smorest import Api
 from db import db
 import models
+from resources.city import blp as CityBlueprint
 
 def create_app(db_url=None):
       
@@ -20,5 +21,10 @@ def create_app(db_url=None):
   db.init_app(app)
   
   api = Api(app)
+
+  with app.app_context():
+    db.create_all()
+
+  api.register_blueprint(CityBlueprint)
 
   return app
