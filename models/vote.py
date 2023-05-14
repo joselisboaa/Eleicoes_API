@@ -4,13 +4,12 @@ class VoteModel(db.Model):
   __tablename__ = "votes"
 
   id = db.Column(db.Integer, primary_key=True)
-  section_id = db.Column(db.Integer, db.ForeignKey("electoral_sections"), nullable=False, required=True)
+  section_id = db.Column(db.Integer, db.ForeignKey("electoral_sections.id"), nullable=False)
   # In case of null vote the id is Null (will need a constraint which will verify if voted number exists)
-  candidate_mayor_id = db.Column(db.Integer, db.ForeignKey("candidates"), nullable=True)
-  candidate_councilman_id = db.Column(db.Integer, db.ForeignKey("candidates"), nullable=True)
+  candidate_id = db.Column(db.Integer, db.ForeignKey("candidates.id"), nullable=True)
   blank_vote = db.Column(db.Boolean)
   null_vote = db.Column(db.Boolean)
 
-  section = db.relationship("ElectoralSectionModel", backpopulates="votes")
-  candidate_mayor = db.relationship("CandidateModel", backpopulates="votes")
-  candidate_councilman = db.relationship("CandidateModel", backpopulates="votes")
+  electoral_sections = db.relationship("ElectoralSectionModel", back_populates="votes")
+  candidates = db.relationship("CandidateModel", back_populates="votes")
+  
