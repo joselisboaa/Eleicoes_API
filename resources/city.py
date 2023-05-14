@@ -42,8 +42,6 @@ class CitiesList(MethodView):
     def put(self, city_data, city_id):
       city = CityModel.query.get(city_id)
 
-      print(city)
-
       city_dto = {}
 
       if city is None: 
@@ -54,6 +52,7 @@ class CitiesList(MethodView):
       city.group_of_councilors = city_data["group_of_councilors"]
 
       city_dto = {
+          "id": city.id,
           "name": city.name,
           "state_abbreviation": city.state_abbreviation,
           "group_of_councilors": city.group_of_councilors,
@@ -71,6 +70,7 @@ class CitiesList(MethodView):
             return make_response(jsonify({"message": "Cidade não existente."}), 404)
         
         city_dto = {
+          "id": city.id,
           "name": city.name,
           "state_abbreviation": city.state_abbreviation,
           "group_of_councilors": city.group_of_councilors,
