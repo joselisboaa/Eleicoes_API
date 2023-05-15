@@ -37,7 +37,7 @@ class ZonesList(MethodView):
         zone = ElectoralZoneModel.query.filter(ElectoralZoneModel.id == zone_id).first()
 
         if zone is None:
-            return make_response(jsonify({"message": "Zona não existente."}))
+            return make_response(jsonify({"message":  "Zona não existente."}))
         
         city = CityModel.query.filter(CityModel.id == zone.city_id).first()
         
